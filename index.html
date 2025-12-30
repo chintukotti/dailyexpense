@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Expense Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Favicon Added: Rupee Symbol -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 fill=%22%234A90E2%22>₹</text></svg>">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- Login Section -->
+    <div id="login-container">
+        <h1>Daily Expense Pro</h1>
+        <p class="subtitle">Track, Analyze, and Save</p>
+        <button id="loginBtn" class="google-btn">
+            <svg width="20" height="20" viewBox="0 0 48 48">
+                <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path>
+                <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path>
+                <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path>
+                <path fill="#1976D2" d="M43.611,20.083L43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
+            </svg>
+            Sign in with Google
+        </button>
+    </div>
+
+    <!-- App Container -->
+    <div class="container" id="app-container">
+        
+        <!-- Header & Profile -->
+        <header>
+            <div class="brand">
+                <h1>Daily Expense</h1>
+            </div>
+
+            <div class="profile-section" id="profileSection">
+                <div class="avatar-container" id="avatarBtn">
+                    <img id="userAvatar" src="" alt="Profile" class="avatar">
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="dropdown-menu">
+                    <div class="dropdown-item" id="logoutBtn">Logout</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Summary Cards -->
+        <section class="summary-section">
+            <div class="card">
+                <small>Today</small>
+                <p id="todayTotal">₹ 0</p>
+            </div>
+            <div class="card">
+                <small>This Month</small>
+                <p id="monthTotal">₹ 0</p>
+            </div>
+            <div class="card">
+                <small>Remaining</small>
+                <p id="remainingMoney">Set Budget</p>
+            </div>
+            <div class="card">
+                <small>Entries</small>
+                <p id="totalEntries">0</p>
+            </div>
+        </section>
+
+        <!-- Budget Alert REMOVED -->
+
+        <!-- Charts -->
+        <section class="charts-container">
+            <div class="chart-wrapper">
+                <canvas id="categoryChart"></canvas>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="monthlyChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Controls Row -->
+        <div class="controls-row">
+            
+            <!-- Group 1: Budget & Search -->
+            <div class="control-group-1">
+                <div class="budget-control">
+                    <label>Budget (₹)</label>
+                    <div style="display:flex; gap:5px;">
+                        <input type="number" id="budgetInput" placeholder="Set Budget" style="width: 100px;">
+                        <button id="setBudgetBtn" class="btn-small">Set</button>
+                    </div>
+                </div>
+
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search expense...">
+                </div>
+            </div>
+
+            <!-- Group 2: Filters -->
+            <div class="control-group-2">
+                <select id="monthFilter">
+                    <option value="all">All Time</option>
+                </select>
+                <select id="categoryFilter">
+                    <option value="all">All Categories</option>
+                    <option value="Food">🍔 Food</option>
+                    <option value="Travel">🚕 Travel</option>
+                    <option value="Shopping">🛍️ Shopping</option>
+                    <option value="Bills">💡 Bills</option>
+                    <option value="Others">🔹 Others</option>
+                    <option value="Custom">✏️ Custom</option>
+                </select>
+            </div>
+
+        </div>
+
+        <!-- Add Expense Form -->
+        <form id="expenseForm" class="expense-form">
+            <input type="hidden" id="editDocId"> 
+            
+            <div class="form-group">
+                <label for="purpose">Purpose</label>
+                <input type="text" id="purpose" placeholder="e.g. Tea, Uber" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" required>
+                    <option value="Food">🍔 Food</option>
+                    <option value="Travel">🚕 Travel</option>
+                    <option value="Shopping">🛍️ Shopping</option>
+                    <option value="Bills">💡 Bills</option>
+                    <option value="Others">🔹 Others</option>
+                    <option value="Custom">✏️ Custom</option>
+                </select>
+                <input type="text" id="customCategoryInput" placeholder="Enter custom category" style="display:none; margin-top:5px;">
+            </div>
+
+            <div class="form-group">
+                <label for="amount">Amount (₹)</label>
+                <input type="number" id="amount" placeholder="0" min="1" step="0.01" required>
+            </div>
+
+            <div class="form-group" style="display:flex; gap:10px;">
+                <button type="submit" id="submitBtn" class="btn-add">Add</button>
+                <button type="button" id="cancelBtn" class="btn-cancel" style="display: none;">Cancel</button>
+            </div>
+        </form>
+
+        <!-- Expense List Table -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Purpose</th>
+                        <th>Category</th>
+                        <th>Amount (₹)</th>
+                        <th>Date & Time</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="expenseList">
+                    <!-- JS fills this -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Dynamic Toast with Progress Bar -->
+    <div id="dynamicToast" class="toast hidden">
+        <div class="toast-content">
+            <span id="toastMessage">Message</span>
+            <button id="toastActionBtn" class="btn-delete-toast">Delete</button>
+        </div>
+        <div class="toast-progress" id="toastProgress"></div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
