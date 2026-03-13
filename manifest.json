@@ -1,0 +1,25 @@
+{
+    "name": "Daily Expense Pro",
+    "short_name": "ExpensePro",
+    "description": "Track your daily expenses with visual analytics and cloud sync",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#f0f2f5",
+    "theme_color": "#4A90E2",
+    "orientation": "portrait-primary",
+    "scope": "./",
+    "icons": [
+        {
+            "src": "icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
